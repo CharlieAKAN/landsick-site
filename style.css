@@ -918,16 +918,67 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
-    .nav-links, .header-actions {
+    .nav-links {
         display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #0f0f0f; /* High contrast black */
+        padding: 2rem 1.5rem;
+        z-index: 1000;
+        text-align: center;
+        gap: 0.5rem;
+        border-bottom: 3px solid var(--orange-main); /* Sharp separation */
     }
-    
+
+    .nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    .nav-links a {
+        font-size: 1.25rem;
+        padding: 1rem 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .header-actions {
+        display: none;
+        flex-direction: column;
+        background: #0f0f0f;
+        padding: 0 1.5rem 2rem;
+        position: absolute;
+        top: calc(100% + 220px); /* Positioned below nav links */
+        left: 0;
+        right: 0;
+        z-index: 999;
+        gap: 1.5rem;
+    }
+
+    .header-actions.active {
+        display: flex;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    /* Adjust header actions positioning based on number of links */
+    .nav-links.active + .logo + .header-actions.active {
+        top: calc(100% + 220px);
+    }
+
     .mobile-menu-btn {
         display: block;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
     .footer-top, .footer-contact, .footer-bottom {
@@ -938,9 +989,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 /* Blog Section - Pure Typography Style */
 .blog-index-section {
-    padding: 8rem 2rem 4rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 8rem 0 4rem;
+    position: relative;
 }
 
 .blog-grid {

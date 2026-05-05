@@ -5,32 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerActions = document.querySelector('.header-actions');
 
     mobileMenuBtn.addEventListener('click', () => {
-        const isExpanded = navLinks.style.display === 'flex';
+        navLinks.classList.toggle('active');
+        headerActions.classList.toggle('active');
         
-        if (isExpanded) {
-            navLinks.style.display = 'none';
-            headerActions.style.display = 'none';
-        } else {
-            navLinks.style.display = 'flex';
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '100%';
-            navLinks.style.left = '0';
-            navLinks.style.width = '100%';
-            navLinks.style.backgroundColor = '#1a1a1a';
-            navLinks.style.padding = '1rem';
-            navLinks.style.zIndex = '100';
-            
-            headerActions.style.display = 'flex';
-            headerActions.style.flexDirection = 'column';
-            headerActions.style.position = 'absolute';
-            // Avoid forced reflow by using a fixed or CSS-based position
-            headerActions.style.top = 'calc(100% + 50px)'; 
-            headerActions.style.left = '0';
-            headerActions.style.width = '100%';
-            headerActions.style.backgroundColor = '#1a1a1a';
-            headerActions.style.padding = '1rem';
-            headerActions.style.zIndex = '100';
+        // Toggle icon between bars and X
+        const icon = mobileMenuBtn.querySelector('i');
+        if (icon) {
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         }
     });
 

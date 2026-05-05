@@ -159,10 +159,12 @@
         // Simple mobile menu toggle
         const menuBtn = document.querySelector('.mobile-menu-btn');
         const navLinks = document.querySelector('.nav-links');
+        const headerActions = document.querySelector('.header-actions');
 
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
                 navLinks.classList.toggle('active');
+                if (headerActions) headerActions.classList.toggle('active');
                 menuBtn.querySelector('i').classList.toggle('fa-bars');
                 menuBtn.querySelector('i').classList.toggle('fa-times');
             });
