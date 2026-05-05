@@ -973,11 +973,45 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     background: var(--bg-dark);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
 }
+
+.word-cloud {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    z-index: 0;
+    pointer-events: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 1.5rem;
+    opacity: 0.12;
+    filter: blur(1px);
+}
+
+.word-cloud span {
+    font-weight: 800;
+    text-transform: uppercase;
+    color: white;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.word-cloud span:nth-child(3n) { color: var(--orange-main); opacity: 0.8; }
+.word-cloud span:nth-child(5n) { transform: rotate(-5deg); }
+.word-cloud span:nth-child(2n) { transform: rotate(3deg); }
 
 .post-meta {
     max-width: 900px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .post-title {

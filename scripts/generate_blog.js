@@ -35,6 +35,7 @@ async function generateBlog() {
                     "date": "Month Day, Year",
                     "excerpt": "A 1-sentence hook (no em-ashes!)",
                     "slug": "simple-url-slug",
+                    "tags": ["keyword1", "keyword2", "keyword3", "up to 15 tags"],
                     "content": "Full HTML content with H2s and P tags. Include the 'Sources' section at the bottom."
                   }
             `,
@@ -51,13 +52,19 @@ async function generateBlog() {
         console.log(rawText);
 
         const data = JSON.parse(rawText);
-        const { title, date, excerpt, slug, content } = data;
+        const { title, date, excerpt, slug, tags, content } = data;
 
         if (!title || !slug || !content) {
             throw new Error('AI response missing required fields (title, slug, or content)');
         }
 
         console.log(`Successfully Generated: ${title}`);
+
+        // Generate Word Cloud HTML
+        const wordCloudHtml = (tags || []).map(tag => {
+            const size = Math.floor(Math.random() * (4 - 1 + 1) + 1); // Random size 1-4rem
+            return `<span style="font-size: ${size}rem;">${tag}</span>`;
+        }).join('\n');
 
         // 2. Load the template
         const templatePath = path.join(__dirname, '../blog-template.html');
@@ -70,7 +77,8 @@ async function generateBlog() {
             .replace(/{{POST_DATE}}/g, date)
             .replace(/{{POST_EXCERPT}}/g, excerpt)
             .replace(/{{POST_SLUG}}/g, slug)
-            .replace(/{{POST_CONTENT}}/g, content);
+            .replace(/{{POST_CONTENT}}/g, content)
+            .replace(/{{WORD_CLOUD}}/g, wordCloudHtml);
 
         // 4. Save the new post
         const blogDir = path.join(__dirname, '../blog');
