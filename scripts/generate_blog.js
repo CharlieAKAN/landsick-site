@@ -47,13 +47,21 @@ async function generateBlog() {
             rawText = rawText.replace(/```json|```/g, '').trim();
         }
 
+        console.log('--- Raw AI Response ---');
+        console.log(rawText);
+
         const data = JSON.parse(rawText);
         const { title, date, excerpt, slug, content } = data;
 
-        console.log(`Generated: ${title}`);
+        if (!title || !slug || !content) {
+            throw new Error('AI response missing required fields (title, slug, or content)');
+        }
+
+        console.log(`Successfully Generated: ${title}`);
 
         // 2. Load the template
         const templatePath = path.join(__dirname, '../blog-template.html');
+        if (!fs.existsSync(templatePath)) throw new Error('Template file not found!');
         let template = fs.readFileSync(templatePath, 'utf8');
 
         // 3. Inject content into template
@@ -67,11 +75,16 @@ async function generateBlog() {
         // 4. Save the new post
         const postPath = path.join(__dirname, `../blog/${slug}.html`);
         fs.writeFileSync(postPath, finalHtml);
-        console.log(`Saved new post to: blog/${slug}.html`);
+        console.log(`✓ Saved new post to: blog/${slug}.html`);
 
         // 5. Update the Blog Index (blog.html)
         const blogIndexPath = path.join(__dirname, '../blog.html');
+        if (!fs.existsSync(blogIndexPath)) throw new Error('blog.html not found!');
         let blogIndex = fs.readFileSync(blogIndexPath, 'utf8');
+
+        if (!blogIndex.includes('<!-- POSTS_START -->')) {
+            throw new Error('Could not find <!-- POSTS_START --> marker in blog.html');
+        }
 
         const newCard = `
                 <!-- Generated Post: ${slug} -->
@@ -85,10 +98,11 @@ async function generateBlog() {
         blogIndex = blogIndex.replace('<!-- POSTS_START -->', `<!-- POSTS_START -->${newCard}`);
         fs.writeFileSync(blogIndexPath, blogIndex);
         
-        console.log('Blog index updated successfully.');
+        console.log('✓ Blog index updated successfully.');
 
     } catch (error) {
-        console.error('FAILED to generate blog:', error);
+        console.error('CRITICAL ERROR:', error.message);
+        process.exit(1); // Force GitHub Action to fail
     }
 }
 
