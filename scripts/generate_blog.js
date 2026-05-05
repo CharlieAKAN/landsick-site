@@ -91,10 +91,15 @@ async function syncIndex() {
     const blogDir = path.join(__dirname, '../blog');
     const blogIndexPath = path.join(__dirname, '../blog.html');
     
-    if (!fs.existsSync(blogDir)) return;
+    if (!fs.existsSync(blogDir)) {
+        console.log('Blog directory does not exist yet.');
+        return;
+    }
 
     // Scan for all post files
     const files = fs.readdirSync(blogDir).filter(f => f.endsWith('.html') && f !== '.gitkeep');
+    console.log(`Found ${files.length} blog files in folder:`, files);
+    
     const posts = [];
 
     files.forEach(file => {
@@ -106,24 +111,31 @@ async function syncIndex() {
         const match = content.match(/<!-- METADATA: (.*?) -->/);
         if (match) {
             try {
-                posts.push(JSON.parse(match[1]));
+                const meta = JSON.parse(match[1]);
+                posts.push(meta);
+                console.log(`  + Found metadata for: ${slug}`);
                 return;
-            } catch (e) {}
+            } catch (e) {
+                console.warn(`  ! Metadata parse error in ${file}`);
+            }
         }
 
         // 2. Fallback: Manual scraping
-        console.log(`Scraping fallback for ${file}...`);
+        console.log(`  ? Scraping fallback for ${file}...`);
         const titleMatch = content.match(/<h1 class="post-title">(.*?)<\/h1>/);
         const dateMatch = content.match(/<span class="blog-date">(.*?)<\/span>/);
         const excerptMatch = content.match(/<meta name="description" content="(.*?)">/);
 
         if (titleMatch && dateMatch) {
             posts.push({
-                title: titleMatch[1],
-                date: dateMatch[1],
-                excerpt: excerptMatch ? excerptMatch[1] : '',
+                title: titleMatch[1].trim(),
+                date: dateMatch[1].trim(),
+                excerpt: excerptMatch ? excerptMatch[1].trim() : '',
                 slug: slug
             });
+            console.log(`  + Scraped content for: ${slug}`);
+        } else {
+            console.warn(`  ! Could not find title/date in ${file}`);
         }
     });
 
@@ -149,21 +161,28 @@ async function syncIndex() {
     const startTag = '<!-- POSTS_START -->';
     const endTag = '<!-- POSTS_END -->';
     
-    const startIndex = blogIndex.indexOf(startTag) + startTag.length;
+    const startIndex = blogIndex.indexOf(startTag);
     const endIndex = blogIndex.indexOf(endTag);
     
     if (startIndex > -1 && endIndex > -1) {
-        const newIndexHtml = blogIndex.substring(0, startIndex) + '\n' + cardsHtml + '\n' + blogIndex.substring(endIndex);
+        console.log('Updating blog.html content between markers...');
+        const before = blogIndex.substring(0, startIndex + startTag.length);
+        const after = blogIndex.substring(endIndex);
+        const newIndexHtml = before + '\n' + cardsHtml + '\n' + after;
         fs.writeFileSync(blogIndexPath, newIndexHtml);
-        console.log(`✓ Blog index synced. (${posts.length} posts found)`);
+        console.log(`✓ Blog index synced. (${posts.length} posts successfully listed)`);
     } else {
         console.error('Markers not found in blog.html');
+        console.log('Search for START:', startIndex);
+        console.log('Search for END:', endIndex);
     }
 }
 
 // Check for --sync-only flag
-if (process.argv.includes('--sync-only')) {
-    syncIndex();
-} else {
-    generateBlog();
-}
+(async () => {
+    if (process.argv.includes('--sync-only')) {
+        await syncIndex();
+    } else {
+        await generateBlog();
+    }
+})();
