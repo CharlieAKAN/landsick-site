@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             headerActions.style.display = 'flex';
             headerActions.style.flexDirection = 'column';
             headerActions.style.position = 'absolute';
-            headerActions.style.top = 'calc(100% + ' + navLinks.offsetHeight + 'px)';
+            // Avoid forced reflow by using a fixed or CSS-based position
+            headerActions.style.top = 'calc(100% + 50px)'; 
             headerActions.style.left = '0';
             headerActions.style.width = '100%';
             headerActions.style.backgroundColor = '#1a1a1a';
