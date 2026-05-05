@@ -98,23 +98,41 @@ async function syncIndex() {
     const posts = [];
 
     files.forEach(file => {
-        const content = fs.readFileSync(path.join(blogDir, file), 'utf8');
-        // Extract metadata from the hidden comment
+        const filePath = path.join(blogDir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        const slug = file.replace('.html', '');
+        
+        // 1. Try hidden metadata first
         const match = content.match(/<!-- METADATA: (.*?) -->/);
         if (match) {
             try {
-                const meta = JSON.parse(match[1]);
-                // Try to find a date in the content if isoDate isn't in meta yet
-                // For older files, we'll just use the date string
-                posts.push(meta);
-            } catch (e) {
-                console.warn(`Could not parse metadata for ${file}`);
-            }
+                posts.push(JSON.parse(match[1]));
+                return;
+            } catch (e) {}
+        }
+
+        // 2. Fallback: Manual scraping
+        console.log(`Scraping fallback for ${file}...`);
+        const titleMatch = content.match(/<h1 class="post-title">(.*?)<\/h1>/);
+        const dateMatch = content.match(/<span class="blog-date">(.*?)<\/span>/);
+        const excerptMatch = content.match(/<meta name="description" content="(.*?)">/);
+
+        if (titleMatch && dateMatch) {
+            posts.push({
+                title: titleMatch[1],
+                date: dateMatch[1],
+                excerpt: excerptMatch ? excerptMatch[1] : '',
+                slug: slug
+            });
         }
     });
 
     // Sort posts by date (Newest first)
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    posts.sort((a, b) => {
+        const dateA = new Date(a.isoDate || a.date);
+        const dateB = new Date(b.isoDate || b.date);
+        return dateB - dateA;
+    });
 
     // Generate Cards HTML
     const cardsHtml = posts.map(post => `
