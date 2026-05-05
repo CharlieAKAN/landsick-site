@@ -1,0 +1,35 @@
+name: Weekly Auto-Blogger
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Runs every Monday at 9:00 AM UTC
+  workflow_dispatch: # Allows manual triggering for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Auto-Blogger Script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/generate_blog.js
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "Landsick Bot"
+          git config --global user.email "bot@landsickmedia.com"
+          git add .
+          git commit -m "Auto-generated weekly blog post" || echo "No changes to commit"
+          git push
