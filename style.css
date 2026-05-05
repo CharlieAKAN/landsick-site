@@ -918,19 +918,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+    .header-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .logo {
+        order: 1;
+    }
+
+    .mobile-menu-btn {
+        order: 2;
+        display: block;
+    }
+
     .nav-links {
+        order: 3;
         display: none;
         flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
+        width: 100%;
         background: #0f0f0f; /* High contrast black */
-        padding: 2rem 1.5rem;
-        z-index: 1000;
+        padding: 2rem 1.5rem 1rem;
         text-align: center;
         gap: 0.5rem;
-        border-bottom: 3px solid var(--orange-main); /* Sharp separation */
     }
 
     .nav-links.active {
@@ -946,30 +959,19 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .header-actions {
+        order: 4;
         display: none;
         flex-direction: column;
+        width: 100%;
         background: #0f0f0f;
-        padding: 0 1.5rem 2rem;
-        position: absolute;
-        top: calc(100% + 220px); /* Positioned below nav links */
-        left: 0;
-        right: 0;
-        z-index: 999;
+        padding: 0 1.5rem 2.5rem;
         gap: 1.5rem;
+        border-bottom: 3px solid var(--orange-main); /* Sharp separation at the VERY bottom */
     }
 
     .header-actions.active {
         display: flex;
         animation: slideDown 0.3s ease-out;
-    }
-
-    /* Adjust header actions positioning based on number of links */
-    .nav-links.active + .logo + .header-actions.active {
-        top: calc(100% + 220px);
-    }
-
-    .mobile-menu-btn {
-        display: block;
     }
 
     .hero-title {
