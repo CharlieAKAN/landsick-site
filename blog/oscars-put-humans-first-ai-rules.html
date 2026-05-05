@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Readex+Pro:wght@200;300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -28,7 +28,7 @@
             </nav>
             <div class="logo">
                 <a href="../index.html">
-                    <img src="../images/LS_webheader.webp" alt="Landsick Media">
+                    <img src="../images/LS_webheadery.webp" alt="Landsick Media" width="245" height="70">
                 </a>
             </div>
             <div class="header-actions">
@@ -131,7 +131,7 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="../images/LS_webheader.webp" alt="Landsick Media">
+                <img src="../images/LS_webheadery.webp" alt="Landsick Media" width="300" height="86" loading="lazy">
             </div>
 
             <div class="footer-cta">
@@ -155,6 +155,19 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Simple mobile menu toggle
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuBtn.querySelector('i').classList.toggle('fa-bars');
+                menuBtn.querySelector('i').classList.toggle('fa-times');
+            });
+        }
+    </script>
 </body>
 
 </html>
