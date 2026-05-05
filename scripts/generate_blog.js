@@ -171,11 +171,55 @@ async function syncIndex() {
         const newIndexHtml = before + '\n' + cardsHtml + '\n' + after;
         fs.writeFileSync(blogIndexPath, newIndexHtml);
         console.log(`✓ Blog index synced. (${posts.length} posts successfully listed)`);
+        
+        // Final Step: Rebuild sitemap.xml for SEO
+        generateSitemap(posts);
     } else {
         console.error('Markers not found in blog.html');
         console.log('Search for START:', startIndex);
         console.log('Search for END:', endIndex);
     }
+}
+
+function generateSitemap(posts) {
+    console.log('--- Generating sitemap.xml ---');
+    const baseUrl = 'https://landsickmedia.com';
+    const today = new Date().toISOString().split('T')[0];
+
+    const corePages = [
+        { url: '', priority: '1.0' },
+        { url: '/about.html', priority: '0.8' },
+        { url: '/blog.html', priority: '0.9' }
+    ];
+
+    let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+`;
+
+    // Add Core Pages
+    corePages.forEach(page => {
+        sitemap += `  <url>
+    <loc>${baseUrl}${page.url}</loc>
+    <lastmod>${today}</lastmod>
+    <priority>${page.priority}</priority>
+  </url>\n`;
+    });
+
+    // Add Blog Posts
+    posts.forEach(post => {
+        const postDate = post.isoDate || today;
+        sitemap += `  <url>
+    <loc>${baseUrl}/blog/${post.slug}.html</loc>
+    <lastmod>${postDate}</lastmod>
+    <priority>0.7</priority>
+  </url>\n`;
+    });
+
+    sitemap += '</urlset>';
+
+    const sitemapPath = path.join(__dirname, '../sitemap.xml');
+    fs.writeFileSync(sitemapPath, sitemap);
+    console.log(`✓ Generated sitemap.xml with ${corePages.length + posts.length} URLs.`);
 }
 
 // Check for --sync-only flag
