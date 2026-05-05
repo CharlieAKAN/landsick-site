@@ -41,7 +41,13 @@ async function generateBlog() {
             input: "Research the latest news in filmmaking and write this week's blog post.",
         });
 
-        const data = JSON.parse(response.output_text);
+        let rawText = response.output_text;
+        // Strip markdown code blocks if present
+        if (rawText.includes('```')) {
+            rawText = rawText.replace(/```json|```/g, '').trim();
+        }
+
+        const data = JSON.parse(rawText);
         const { title, date, excerpt, slug, content } = data;
 
         console.log(`Generated: ${title}`);

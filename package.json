@@ -8,5 +8,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "openai": "^4.0.0",
+    "node-fetch": "^2.6.7"
+  }
 }
