@@ -113,6 +113,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .logo img {
     height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 
 .header-actions {
@@ -772,6 +774,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-logo img {
     height: 70px;
+    width: auto;
+    object-fit: contain;
     transition: transform 0.3s ease;
 }
 

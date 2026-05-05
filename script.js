@@ -141,4 +141,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    // Lazy load Web3Forms and hCaptcha script
+    const contactSection = document.getElementById('contact-form');
+    if (contactSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const script = document.createElement('script');
+                    script.src = "https://web3forms.com/client/script.js";
+                    script.async = true;
+                    script.defer = true;
+                    document.body.appendChild(script);
+                    console.log('Web3Forms script loaded lazily.');
+                    observer.disconnect();
+                }
+            });
+        }, { rootMargin: '200px' });
+        observer.observe(contactSection);
+    }
 });
