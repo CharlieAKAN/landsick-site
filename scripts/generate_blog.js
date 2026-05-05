@@ -141,4 +141,9 @@ async function syncIndex() {
     }
 }
 
-generateBlog();
+// Check for --sync-only flag
+if (process.argv.includes('--sync-only')) {
+    syncIndex();
+} else {
+    generateBlog();
+}

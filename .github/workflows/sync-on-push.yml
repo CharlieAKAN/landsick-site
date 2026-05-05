@@ -1,0 +1,35 @@
+name: Sync Blog on Change
+
+on:
+  push:
+    paths:
+      - 'blog/**' # Only run when files in the blog folder are touched
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Sync
+        run: node scripts/generate_blog.js --sync-only
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "Landsick Bot"
+          git config --global user.email "bot@landsickmedia.com"
+          git add blog.html
+          git commit -m "Auto-sync blog index" || echo "No changes to sync"
+          git push
