@@ -814,7 +814,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer-bottom {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     font-size: 0.8rem;
     color: rgba(239, 232, 220, 0.6);
