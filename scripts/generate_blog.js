@@ -2,16 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const OpenAI = require('openai');
 
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+const client = null;
 
 async function generateBlog() {
+    const aiClient = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+    });
+    
     try {
         console.log('--- Starting Auto-Blogger (Sync Mode) ---');
         
         // 1. Generate new content
-        const response = await client.responses.create({
+        const response = await aiClient.responses.create({
             model: "gpt-5.5",
             tools: [{ type: "web_search" }],
             instructions: `
