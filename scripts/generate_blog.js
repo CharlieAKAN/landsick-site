@@ -73,7 +73,12 @@ async function generateBlog() {
             .replace(/{{POST_CONTENT}}/g, content);
 
         // 4. Save the new post
-        const postPath = path.join(__dirname, `../blog/${slug}.html`);
+        const blogDir = path.join(__dirname, '../blog');
+        if (!fs.existsSync(blogDir)) {
+            fs.mkdirSync(blogDir, { recursive: true });
+        }
+
+        const postPath = path.join(blogDir, `${slug}.html`);
         fs.writeFileSync(postPath, finalHtml);
         console.log(`✓ Saved new post to: blog/${slug}.html`);
 
