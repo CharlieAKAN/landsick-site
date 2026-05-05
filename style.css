@@ -455,11 +455,11 @@ h1, h2, h3, h4, h5, h6 {
     background-color: white;
 }
 
-/* About Page */
-.about-hero-section {
+/* Secondary Page Hero Style */
+.page-hero-section {
     position: relative;
     background-color: var(--bg-dark);
-    padding: 6rem 2rem 4rem;
+    padding: 8rem 2rem 5rem;
     text-align: center;
 }
 
@@ -947,21 +947,22 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.75rem;
     line-height: 1.3;
     margin-bottom: 1.5rem;
-    color: white;
+    color: inherit;
     font-weight: 700;
 }
 
 .blog-excerpt {
     font-size: 1rem;
     line-height: 1.7;
-    color: rgba(239, 232, 220, 0.6);
+    color: inherit;
+    opacity: 0.8;
     margin-bottom: 2.5rem;
 }
 
 .blog-more-btn {
     margin-top: auto;
     font-weight: 700;
-    color: white;
+    color: inherit;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -1030,9 +1031,9 @@ h1, h2, h3, h4, h5, h6 {
 .post-content {
     max-width: 800px;
     margin: 0 auto;
-    padding: 6rem 2rem;
+    padding: 0;
     line-height: 1.9;
-    color: rgba(239, 232, 220, 0.85);
+    color: var(--text-dark); /* Ensure text is dark and readable */
 }
 
 .post-content p {
@@ -1045,6 +1046,24 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--orange-main);
     margin: 4rem 0 2rem;
     letter-spacing: -1px;
+}
+
+.post-content a {
+    color: var(--orange-main);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Light Theme Overrides */
+.blog-index-section[style*="background-color: #ffffff"] .blog-card {
+    background: #f8f9fa;
+    border-color: rgba(0,0,0,0.05);
+    color: var(--text-dark);
+}
+
+.blog-index-section[style*="background-color: #ffffff"] .blog-card:hover {
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 @media (max-width: 768px) {

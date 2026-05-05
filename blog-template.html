@@ -51,19 +51,28 @@
 
     <main>
         <article>
-            <header class="post-header">
+            <section class="page-hero-section">
                 <div class="word-cloud" id="word-cloud">
                     {{WORD_CLOUD}}
                 </div>
-                <div class="post-meta">
-                    <span class="blog-date">{{POST_DATE}}</span>
-                    <h1 class="post-title">{{POST_TITLE}}</h1>
+                <div class="post-meta" style="position: relative; z-index: 2;">
+                    <span class="blog-date" style="color: var(--orange-main); font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">{{POST_DATE}}</span>
+                    <h1 class="post-title" style="margin-top: 1rem;">{{POST_TITLE}}</h1>
                 </div>
-            </header>
+            </section>
 
-            <div class="post-content">
-                {{POST_CONTENT}}
-            </div>
+            <section class="post-content-section" style="background-color: #ffffff; color: var(--text-dark); position: relative; padding: calc(10vw + 2rem) 2rem 6rem;">
+                <div class="shape-divider shape-top shape-waves">
+                    <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
+                        <path opacity="0.33" d="M0,60 C300,-20 700,-20 1000,60 V0 H0 Z" fill="#1a1a1a" />
+                        <path opacity="0.66" d="M0,80 C300,0 700,0 1000,80 V0 H0 Z" fill="#1a1a1a" />
+                        <path d="M0,100 C300,20 700,20 1000,100 V0 H0 Z" fill="#1a1a1a" />
+                    </svg>
+                </div>
+                <div class="post-content" style="max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem;">
+                    {{POST_CONTENT}}
+                </div>
+            </section>
         </article>
 
         <section class="more-posts-section" style="padding: 5rem 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
