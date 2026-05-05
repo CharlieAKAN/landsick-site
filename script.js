@@ -159,4 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { rootMargin: '200px' });
         observer.observe(contactSection);
     }
+
+    // Single-click YouTube Video Loader
+    document.querySelectorAll('.video-placeholder').forEach(placeholder => {
+        placeholder.addEventListener('click', function() {
+            const videoId = this.dataset.video;
+            const container = this.closest('.video-container');
+            if (container && videoId) {
+                container.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen title="Landsick Media Reel"></iframe>`;
+            }
+        });
+    });
 });
