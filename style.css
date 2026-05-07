@@ -809,12 +809,40 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--orange-main);
     padding: 0.5rem;
     border-radius: 20px;
-    aspect-ratio: 16/9;
+    width: 100%;
+    aspect-ratio: 4/3;
+    min-height: 350px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .map-container iframe {
     border-radius: 15px;
+}
+
+/* Force Google Maps place card on mobile by simulating a larger width and scaling down */
+@media (max-width: 500px) {
+    .map-container {
+        overflow: hidden;
+    }
+    .map-container iframe {
+        width: 140%;
+        height: 140%;
+        transform: scale(0.7142);
+        transform-origin: top left;
+        border-radius: 21px;
+    }
+}
+
+@media (min-width: 993px) {
+    .location-map-col {
+        position: relative;
+    }
+    .location-info {
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        width: 100%;
+    }
 }
 
 .footer-waves {
