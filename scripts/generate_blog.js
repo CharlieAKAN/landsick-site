@@ -153,7 +153,7 @@ async function syncIndex() {
                     <span class="blog-date">${post.date}</span>
                     <h3 class="blog-card-title">${post.title}</h3>
                     <p class="blog-excerpt">${post.excerpt}</p>
-                    <a href="blog/${post.slug}.html" class="blog-more-btn">Read Post <i class="fas fa-arrow-right"></i></a>
+                    <a href="/blog/${post.slug}" class="blog-more-btn">Read Post <i class="fas fa-arrow-right"></i></a>
                 </article>`).join('\n');
 
     // Update blog.html
