@@ -129,6 +129,10 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
 
+.phone-link:hover {
+    color: var(--orange-main);
+}
+
 .mobile-menu-btn {
     display: none;
     background: none;
@@ -434,13 +438,13 @@ h1, h2, h3, h4, h5, h6 {
 .testimonials-cream {
     position: relative;
     background-color: #EFE8DC;
-    padding: 2rem 0 calc(10vw + 3rem);
+    padding: 2rem 0 calc(min(10vw, 140px) + 0.5rem);
 }
 
 .testimonials-orange {
     position: relative;
     background-color: var(--orange-main);
-    padding: 2rem 0 calc(10vw + 4rem);
+    padding: 2rem 0 calc(min(10vw, 140px) + 3rem);
 }
 
 .testimonial-carousel {
@@ -710,7 +714,7 @@ h1, h2, h3, h4, h5, h6 {
 .location-section {
     max-width: 100%;
     background-color: #EFE8DC;
-    padding: 2.5rem 0 calc(10vw + 3rem);
+    padding: calc(min(10vw, 140px) + 2rem) 0 4rem;
     position: relative;
 }
 
@@ -901,6 +905,10 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
 
+.footer-phone:hover, .footer-email:hover {
+    color: var(--orange-main);
+}
+
 .footer-bottom {
     width: 100%;
     display: flex;
@@ -925,6 +933,11 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 992px) {
     .hero-content, .location-container {
         flex-direction: column;
+    }
+
+    .hero-image-col, .hero-text-col, .location-image, .location-map-col {
+        flex: none;
+        width: 100%;
     }
     
     .form-row {
